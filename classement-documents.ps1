@@ -41,7 +41,12 @@ foreach ($f in Get-ChildItem $src -File) {
     }
   } catch { Write-Host "IGNORE (fichier ouvert) : $($f.Name)" }
 }
-
 if (-not $Simulation -and $lignes.Count -gt 0) {
-  $lignes | Export-Csv $index -Delimiter ';' -Append -NoTypeInformation -Encoding UTF8
+  try {
+    $lignes | Export-Csv $index -Delimiter ';' -Append -NoTypeInformation -Encoding UTF8 -ErrorAction Stop
+  } catch {
+    $secours = Join-Path $racine ("index_en_attente_{0}.csv" -f (Get-Date -Format 'yyyyMMdd_HHmm'))
+    $lignes | Export-Csv $secours -Delimiter ';' -NoTypeInformation -Encoding UTF8
+    Write-Host "Index verrouillé : lignes enregistrées dans $secours"
+  }
 }
