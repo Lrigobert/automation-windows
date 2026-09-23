@@ -1,7 +1,7 @@
 $racine  = "$env:USERPROFILE\Documents\Classement"
 $rapport = Join-Path $racine 'rapport_doublons.csv'
 
-$fichiers = Get-ChildItem $racine -Recurse -File | Where-Object { $_.Name -notlike 'index*.csv' }
+$fichiers = Get-ChildItem $racine -Recurse -File | Where-Object { $_.Name -notlike '*.csv' } 
 
 $groupes = $fichiers | Get-FileHash -Algorithm SHA256 |
   Group-Object Hash | Where-Object Count -gt 1
