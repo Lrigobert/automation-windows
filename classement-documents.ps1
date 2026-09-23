@@ -3,14 +3,14 @@ param([switch]$Simulation)
 $src     = "$env:USERPROFILE\Downloads\Documents"
 $racine  = "$env:USERPROFILE\Documents\Classement"
 $index   = Join-Path $racine 'index.csv'
-$sensible = 'cle|mdp|password|secret|token|backup'
+$sensible = 'backup|password|mdp|secret|token|recovery|2fa|credential|api_?key|(^|[^a-z])cles?([^a-z]|$)'
 
 $cats = [ordered]@{
   'CV'  = @{ Dossier='CV';            Regex='(^|[^a-z])cv([^a-z]|$)|resume' }
+  'FIN' = @{ Dossier='Finance';       Regex='facture|invoice|releve|(^|[^a-z])rib([^a-z]|$)|banque|budget|payfip' }
+  'ADM' = @{ Dossier='Administratif'; Regex='attestation|autorisation|sejour|vls|timbre|(^|[^a-z])caf([^a-z]|$)|impot|assurance|ameli|securite[ _-]sociale|visa' }
   'EMP' = @{ Dossier='Emploi';        Regex='lettre|motivation|candidature|contrat|stage|cinema|offre' }
-  'ADM' = @{ Dossier='Administratif'; Regex='attestation|autorisation|sejour|caf|impot|assurance|ameli|secu|visa' }
-  'FIN' = @{ Dossier='Finance';       Regex='facture|releve|rib|banque|budget' }
-  'ECO' = @{ Dossier='Ecole';         Regex='efrei|soutenance|memoire|rapport|dgsn|cours|questions' }
+  'ECO' = @{ Dossier='Ecole';         Regex='efrei|soutenance|memoire|rapport|dgsn|cours|questions|cybers[eé]curit|num[eé]rique|voip|freepbx|istc|rentr[eé]e|welcome' }
 }
 
 if (-not $Simulation) { New-Item $racine -ItemType Directory -Force | Out-Null }
