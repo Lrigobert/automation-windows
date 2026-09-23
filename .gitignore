@@ -1,0 +1,6 @@
+*.txt
+*.env
+*.key
+*.pem
+secrets/
+Backups/
